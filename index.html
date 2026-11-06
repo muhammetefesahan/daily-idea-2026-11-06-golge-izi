@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gölge İzi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🌗 Gölge İzi</h1>
+    <p>Bir fotoğraftaki gölgeden, fotoğrafın dünyanın neresinde çekilmiş olabileceğini bulalım. Ya da bir şehirde gölgenin gün boyu nasıl değiştiğine bakalım.</p>
+    <div class="sekme" role="tablist">
+      <button type="button" role="tab" data-mod="bul" class="secili">Gölgeden yer bul</button>
+      <button type="button" role="tab" data-mod="hesap">Gölge hesapla</button>
+    </div>
+  </header>
+
+  <main id="bul" class="mod">
+    <section class="sol">
+      <div class="kart">
+        <h2>Fotoğraf ne zaman çekildi?</h2>
+        <div class="izgara">
+          <label>Tarih <input id="tarih" type="date"></label>
+          <label>Saat <input id="saat" type="time"></label>
+          <label>UTC farkı (saat) <input id="fark" type="number" step="0.5" min="-12" max="14"></label>
+        </div>
+        <p class="not">Türkiye'de UTC farkı +3. Fotoğrafın saatini bilmiyorsam bu yöntem çalışmaz.</p>
+      </div>
+      <div class="kart">
+        <h2>Fotoğraftaki gölge</h2>
+        <div class="izgara">
+          <label>Cismin boyu (cm) <input id="boy" type="number" min="1" step="1"></label>
+          <label>Gölgesinin boyu (cm) <input id="golgeBoy" type="number" min="1" step="1"></label>
+          <label>Gölgenin yönü (°) <input id="golgeYon" type="number" min="0" max="359" step="1"></label>
+        </div>
+        <label class="kutu"><input type="checkbox" id="yonBiliniyor" checked> Gölgenin yönünü biliyorum (kuzeyden saat yönünde derece: 0 kuzey, 90 doğu)</label>
+        <div class="izgara iki">
+          <label>Yükseklik payı <span class="kaydir"><input id="yTol" type="range" min="0.5" max="5" step="0.5"><b id="yTolYazi"></b></span></label>
+          <label>Yön payı <span class="kaydir"><input id="aTol" type="range" min="2" max="30" step="1"><b id="aTolYazi"></b></span></label>
+        </div>
+        <p class="not">Fotoğraftan ölçüm hiçbir zaman kusursuz değildir; pay büyüdükçe aday yer çoğalır.</p>
+      </div>
+      <div class="kart islemler">
+        <button type="button" id="ornek" class="ikinci">Örnek koy</button>
+        <p class="not">Hiçbir yere bağlanmıyorum; güneşin konumunu formülle kendim hesaplıyorum.</p>
+      </div>
+    </section>
+
+    <section class="sag">
+      <div class="kart sonuc">
+        <h2>Güneş o anda</h2>
+        <p id="gunesYazi" class="buyuk-yazi"></p>
+        <canvas id="harita" width="1080" height="420" aria-label="Dünya haritası üzerinde olası yerler"></canvas>
+        <div class="lejant"><span><b class="iyi"></b>çok uyumlu</span><span><b class="orta"></b>pay içinde</span><span><b class="sehir"></b>şehir</span><span><b class="en"></b>en iyi nokta</span></div>
+        <p id="enIyi" class="not"></p>
+      </div>
+      <div class="kart">
+        <h2>En uygun şehirler</h2>
+        <ol id="sehirler" class="sehirler"></ol>
+      </div>
+    </section>
+  </main>
+
+  <main id="hesap" class="mod" hidden>
+    <section class="sol">
+      <div class="kart">
+        <h2>Nerede, ne zaman?</h2>
+        <div class="izgara">
+          <label>Şehir <select id="hSehir"></select></label>
+          <label>Tarih <input id="hTarih" type="date"></label>
+          <label>UTC farkı <input id="hFark" type="number" step="0.5" min="-12" max="14"></label>
+          <label>Enlem <input id="hEnlem" type="number" step="0.01" min="-89" max="89"></label>
+          <label>Boylam <input id="hBoylam" type="number" step="0.01" min="-180" max="180"></label>
+          <label>Cismin boyu (cm) <input id="hBoy" type="number" min="1" step="1"></label>
+        </div>
+      </div>
+      <div class="kart">
+        <h2>O gün</h2>
+        <div id="olaylar" class="olaylar"></div>
+      </div>
+    </section>
+    <section class="sag">
+      <div class="kart">
+        <h2>Gölge boyu gün boyunca</h2>
+        <svg id="egri" viewBox="0 0 640 240" role="img" aria-label="Gün içinde gölge boyu"></svg>
+      </div>
+      <div class="kart">
+        <h2>Yukarıdan bakınca gölgenin ucu</h2>
+        <svg id="kadran" viewBox="-160 -160 320 320" role="img" aria-label="Gölge ucunun yolu"></svg>
+        <p class="not">Ortadaki nokta cisim. Çizgi, gölgenin ucunun gün boyunca yerde çizdiği yol. Güneş saati de böyle çalışıyor.</p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="app.mjs"></script>
+</body>
+</html>
